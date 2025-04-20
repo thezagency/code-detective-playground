@@ -1,3 +1,4 @@
+
 import { Challenge, ChallengeType, DifficultyLevel, ProgrammingLanguage } from "@/types/challenge";
 
 // Helper function to create challenge IDs
@@ -757,4 +758,100 @@ fetchData()
   {
     id: generateId(),
     title: "Implement a Deep Object Clone Function",
-    shortDescription: "Write a function that creates a deep
+    shortDescription: "Write a function that creates a deep clone of an object",
+    description: "Implement a function that creates a deep clone of an object, handling nested objects and arrays. Do not use JSON.stringify/parse method.",
+    difficulty: DifficultyLevel.ADVANCED,
+    type: ChallengeType.READ_WRITE,
+    language: ProgrammingLanguage.JAVASCRIPT,
+    initialCode: `function deepClone(obj) {
+  // Your code here
+}
+
+// Example usage
+const original = {
+  name: 'John',
+  age: 30,
+  address: {
+    street: '123 Main St',
+    city: 'Boston',
+    coordinates: [42.3601, -71.0589]
+  },
+  hobbies: ['reading', 'music', { type: 'sports', favorite: 'basketball' }]
+};
+
+const clone = deepClone(original);
+console.log(clone); // Should be identical to original
+console.log(clone === original); // Should be false
+console.log(clone.address === original.address); // Should be false
+console.log(clone.hobbies === original.hobbies); // Should be false`,
+    solution: `  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+
+  // Handle Array
+  if (Array.isArray(obj)) {
+    return obj.map(item => deepClone(item));
+  }
+
+  // Handle Object
+  const clonedObj = {};
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      clonedObj[key] = deepClone(obj[key]);
+    }
+  }
+  
+  return clonedObj;`,
+    solutionCode: `function deepClone(obj) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+
+  // Handle Array
+  if (Array.isArray(obj)) {
+    return obj.map(item => deepClone(item));
+  }
+
+  // Handle Object
+  const clonedObj = {};
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      clonedObj[key] = deepClone(obj[key]);
+    }
+  }
+  
+  return clonedObj;
+}
+
+// Example usage
+const original = {
+  name: 'John',
+  age: 30,
+  address: {
+    street: '123 Main St',
+    city: 'Boston',
+    coordinates: [42.3601, -71.0589]
+  },
+  hobbies: ['reading', 'music', { type: 'sports', favorite: 'basketball' }]
+};
+
+const clone = deepClone(original);
+console.log(clone); // Identical to original
+console.log(clone === original); // false
+console.log(clone.address === original.address); // false
+console.log(clone.hobbies === original.hobbies); // false`,
+    hints: "Use recursion to handle nested objects and arrays. Remember to check for primitive values which can be directly returned.",
+    explanation: "This recursive function handles all cases: 1) For primitives, return directly. 2) For arrays, map over each element and recursively clone it. 3) For objects, create a new object and recursively clone each property. This ensures a true deep clone where all nested objects and arrays are also cloned.",
+    points: 40,
+    requiresPassword: true
+  }
+];
+
+// Export the challenges
+const challenges: Challenge[] = [
+  ...beginnerChallenges,
+  ...intermediateChallenges,
+  ...advancedChallenges
+];
+
+export default challenges;
