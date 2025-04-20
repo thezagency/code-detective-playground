@@ -3,7 +3,17 @@ export enum ChallengeType {
   FIND_ERROR = 'FIND_ERROR',
   COMPLETE_CODE = 'COMPLETE_CODE',
   GUESS_OUTPUT = 'GUESS_OUTPUT',
-  READ_WRITE = 'READ_WRITE'
+  READ_WRITE = 'READ_WRITE',
+  OPTIMIZE_CODE = 'OPTIMIZE_CODE',
+  REFACTOR_CODE = 'REFACTOR_CODE',
+  DEBUG_RECURSIVE = 'DEBUG_RECURSIVE'
+}
+
+export enum DifficultyLevel {
+  BEGINNER = 'Beginner',
+  INTERMEDIATE = 'Intermediate',
+  ADVANCED = 'Advanced',
+  MONSTER = 'Monster'
 }
 
 export interface Challenge {
@@ -11,7 +21,7 @@ export interface Challenge {
   title: string;
   description: string;
   shortDescription?: string;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
+  difficulty: DifficultyLevel;
   type: ChallengeType;
   language: string;
   initialCode: string;
@@ -20,4 +30,7 @@ export interface Challenge {
   expectedOutput?: string;
   hints?: string;
   explanation?: string;
+  category?: string;
+  points?: number;
 }
+
