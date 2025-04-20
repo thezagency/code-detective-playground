@@ -6,14 +6,37 @@ export enum ChallengeType {
   READ_WRITE = 'READ_WRITE',
   OPTIMIZE_CODE = 'OPTIMIZE_CODE',
   REFACTOR_CODE = 'REFACTOR_CODE',
-  DEBUG_RECURSIVE = 'DEBUG_RECURSIVE'
+  DEBUG_RECURSIVE = 'DEBUG_RECURSIVE',
+  ALGORITHM_CHALLENGE = 'ALGORITHM_CHALLENGE',
+  SECURITY_AUDIT = 'SECURITY_AUDIT',
+  DESIGN_PATTERN = 'DESIGN_PATTERN'
 }
 
 export enum DifficultyLevel {
   BEGINNER = 'Beginner',
   INTERMEDIATE = 'Intermediate',
   ADVANCED = 'Advanced',
-  MONSTER = 'Monster'
+  MONSTER = 'Monster',
+  LEGENDARY = 'Legendary'
+}
+
+export enum ProgrammingLanguage {
+  JAVASCRIPT = 'JavaScript',
+  TYPESCRIPT = 'TypeScript',
+  PYTHON = 'Python',
+  JAVA = 'Java',
+  C = 'C',
+  CPP = 'C++',
+  PHP = 'PHP',
+  MYSQL = 'MySQL',
+  HTML = 'HTML',
+  CSS = 'CSS',
+  REACT = 'React',
+  NODE = 'Node.js',
+  GO = 'Go',
+  RUST = 'Rust',
+  RUBY = 'Ruby',
+  CSHARP = 'C#'
 }
 
 export interface Challenge {
@@ -32,5 +55,5 @@ export interface Challenge {
   explanation?: string;
   category?: string;
   points?: number;
+  requiresPassword?: boolean;
 }
-

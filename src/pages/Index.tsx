@@ -6,7 +6,13 @@ import ResultDisplay from "@/components/ResultDisplay";
 import { challenges } from "@/data/challenges";
 import { Challenge, ChallengeType, DifficultyLevel } from "@/types/challenge";
 import { Button } from "@/components/ui/button";
-import { Check, Bug, Code, Search, Star, Trophy, Lightbulb, Rocket } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { 
+  Check, Bug, Code, Search, Star, Trophy, Lightbulb, Rocket, Lock,
+  Brain, ShieldCheck, Layers, Award
+} from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
   const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null);
@@ -18,9 +24,14 @@ const Index = () => {
     expectedOutput?: string;
     points?: number;
     difficulty?: string;
+    requiresPassword?: boolean;
   } | null>(null);
   const [showSolution, setShowSolution] = useState(false);
   const [userScore, setUserScore] = useState(0);
+  const [completedChallenges, setCompletedChallenges] = useState<Set<string>>(new Set());
+  const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
+  const [password, setPassword] = useState("");
+  const { toast } = useToast();
 
   const handleChallengeSelect = (challenge: Challenge) => {
     setSelectedChallenge(challenge);
@@ -55,6 +66,7 @@ const Index = () => {
         break;
       
       case ChallengeType.COMPLETE_CODE:
+      case ChallengeType.ALGORITHM_CHALLENGE:
         isCorrect = userCode.includes(selectedChallenge.solution);
         message = isCorrect 
           ? "Perfect! Your implementation is correct." 
@@ -73,6 +85,8 @@ const Index = () => {
       case ChallengeType.READ_WRITE:
       case ChallengeType.OPTIMIZE_CODE:
       case ChallengeType.REFACTOR_CODE:
+      case ChallengeType.SECURITY_AUDIT:
+      case ChallengeType.DESIGN_PATTERN:
         isCorrect = userCode.includes(selectedChallenge.solution);
         message = isCorrect 
           ? "Great implementation! Your code works as expected." 
@@ -85,6 +99,13 @@ const Index = () => {
     
     if (isCorrect) {
       setUserScore(prev => prev + points);
+      setCompletedChallenges(prev => new Set(prev).add(selectedChallenge.id));
+      
+      toast({
+        title: "Challenge completed!",
+        description: `You earned ${points} points!`,
+        variant: "default",
+      });
     }
 
     setResult({ 
@@ -92,8 +113,39 @@ const Index = () => {
       message, 
       expectedOutput,
       points: points,
-      difficulty: selectedChallenge.difficulty
+      difficulty: selectedChallenge.difficulty,
+      requiresPassword: selectedChallenge.requiresPassword
     });
+  };
+
+  const handleSolutionRequest = () => {
+    if (!selectedChallenge) return;
+    
+    if (selectedChallenge.requiresPassword) {
+      setIsPasswordDialogOpen(true);
+    } else {
+      setShowSolution(!showSolution);
+    }
+  };
+
+  const handlePasswordSubmit = () => {
+    const correctPassword = "81428142";  // As specified by the user
+    
+    if (password === correctPassword) {
+      setIsPasswordDialogOpen(false);
+      setShowSolution(true);
+      toast({
+        title: "Success!",
+        description: "Password accepted. Solution unlocked.",
+        variant: "default",
+      });
+    } else {
+      toast({
+        title: "Incorrect Password",
+        description: "The password you entered is incorrect.",
+        variant: "destructive",
+      });
+    }
   };
 
   const challengeTypeIcon = (type: ChallengeType) => {
@@ -105,6 +157,9 @@ const Index = () => {
       case ChallengeType.OPTIMIZE_CODE: return <Rocket size={18} />;
       case ChallengeType.REFACTOR_CODE: return <Trophy size={18} />;
       case ChallengeType.DEBUG_RECURSIVE: return <Lightbulb size={18} />;
+      case ChallengeType.ALGORITHM_CHALLENGE: return <Brain size={18} />;
+      case ChallengeType.SECURITY_AUDIT: return <ShieldCheck size={18} />;
+      case ChallengeType.DESIGN_PATTERN: return <Layers size={18} />;
       default: return <Code size={18} />;
     }
   };
@@ -118,13 +173,16 @@ const Index = () => {
       case ChallengeType.OPTIMIZE_CODE: return "Optimize Code";
       case ChallengeType.REFACTOR_CODE: return "Refactor Code";
       case ChallengeType.DEBUG_RECURSIVE: return "Debug Recursive";
+      case ChallengeType.ALGORITHM_CHALLENGE: return "Algorithm Challenge";
+      case ChallengeType.SECURITY_AUDIT: return "Security Audit";
+      case ChallengeType.DESIGN_PATTERN: return "Design Pattern";
       default: return "";
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <header className="bg-gray-800 py-4 px-6 shadow-md">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+      <header className="bg-gray-800/80 backdrop-blur-sm py-4 px-6 shadow-md sticky top-0 z-10 border-b border-purple-500/20">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center gap-2">
             <Code className="text-purple-400 h-6 w-6" />
@@ -133,53 +191,44 @@ const Index = () => {
             </h1>
           </div>
           
-          {!selectedChallenge && (
-            <div className="hidden md:flex items-center gap-2">
-              <span className="text-lg text-yellow-400 font-bold flex items-center">
-                <Star className="h-5 w-5 fill-yellow-400 mr-1" />
-                {userScore} points
-              </span>
-            </div>
-          )}
-
-          <div className="hidden md:flex gap-4">
-            <Button variant="ghost" className="flex items-center gap-2">
-              <Bug size={18} />
-              <span>Find Errors</span>
-            </Button>
-            <Button variant="ghost" className="flex items-center gap-2">
-              <Rocket size={18} />
-              <span>Challenges</span>
-            </Button>
+          <div className="hidden md:flex items-center gap-4">
+            <span className="text-lg text-yellow-400 font-bold flex items-center bg-yellow-500/10 px-4 py-1.5 rounded-full border border-yellow-500/20">
+              <Star className="h-5 w-5 fill-yellow-400 mr-2" />
+              {userScore} points
+            </span>
+            
+            <span className="text-lg text-green-400 font-bold flex items-center bg-green-500/10 px-4 py-1.5 rounded-full border border-green-500/20">
+              <Award className="h-5 w-5 text-green-400 mr-2" />
+              {completedChallenges.size} solved
+            </span>
           </div>
         </div>
       </header>
 
       <main className="container mx-auto py-8 px-4">
         {!selectedChallenge ? (
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Welcome to Code Detective</h2>
+              <h2 className="text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-blue-500 to-indigo-500">
+                Welcome to Code Detective
+              </h2>
               <p className="text-xl text-gray-300 mb-6">
-                Test your coding skills with different types of challenges
+                Test your coding skills with different types of challenges across multiple languages
               </p>
               
-              {userScore > 0 && (
-                <div className="mb-8 flex justify-center">
-                  <div className="bg-gradient-to-r from-yellow-600 to-amber-500 p-1 rounded-lg">
-                    <div className="bg-gray-800 p-4 rounded-md flex items-center gap-3">
-                      <Trophy className="h-8 w-8 text-yellow-400" />
-                      <div className="text-left">
-                        <p className="text-yellow-400 font-bold text-2xl">{userScore} points</p>
-                        <p className="text-gray-300">Keep solving challenges to earn more!</p>
-                      </div>
-                    </div>
-                  </div>
+              <div className="md:hidden my-6 flex justify-center gap-4">
+                <div className="bg-gray-800/50 p-4 rounded-lg border border-yellow-500/30 flex items-center gap-2">
+                  <Star className="h-5 w-5 fill-yellow-400" />
+                  <span className="text-yellow-400 font-bold">{userScore} points</span>
                 </div>
-              )}
+                <div className="bg-gray-800/50 p-4 rounded-lg border border-green-500/30 flex items-center gap-2">
+                  <Award className="h-5 w-5 text-green-400" />
+                  <span className="text-green-400 font-bold">{completedChallenges.size} solved</span>
+                </div>
+              </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                <div className="bg-gray-800 p-6 rounded-lg shadow-lg border border-purple-500/30 hover:border-purple-500/70 transition-all">
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 max-w-6xl mx-auto">
+                <div className="bg-gradient-to-br from-purple-900/50 to-purple-800/30 p-6 rounded-lg shadow-lg border border-purple-500/30 hover:border-purple-500/70 transition-all">
                   <div className="text-purple-400 mb-3">
                     <Bug size={32} className="mx-auto" />
                   </div>
@@ -188,7 +237,7 @@ const Index = () => {
                     Debug code snippets by identifying and fixing the bugs
                   </p>
                 </div>
-                <div className="bg-gray-800 p-6 rounded-lg shadow-lg border border-blue-500/30 hover:border-blue-500/70 transition-all">
+                <div className="bg-gradient-to-br from-blue-900/50 to-blue-800/30 p-6 rounded-lg shadow-lg border border-blue-500/30 hover:border-blue-500/70 transition-all">
                   <div className="text-blue-400 mb-3">
                     <Code size={32} className="mx-auto" />
                   </div>
@@ -197,7 +246,7 @@ const Index = () => {
                     Fill in missing code sections to make programs work
                   </p>
                 </div>
-                <div className="bg-gray-800 p-6 rounded-lg shadow-lg border border-green-500/30 hover:border-green-500/70 transition-all">
+                <div className="bg-gradient-to-br from-green-900/50 to-green-800/30 p-6 rounded-lg shadow-lg border border-green-500/30 hover:border-green-500/70 transition-all">
                   <div className="text-green-400 mb-3">
                     <Search size={32} className="mx-auto" />
                   </div>
@@ -206,7 +255,7 @@ const Index = () => {
                     Predict what the code will output when executed
                   </p>
                 </div>
-                <div className="bg-gray-800 p-6 rounded-lg shadow-lg border border-amber-500/30 hover:border-amber-500/70 transition-all">
+                <div className="bg-gradient-to-br from-amber-900/50 to-amber-800/30 p-6 rounded-lg shadow-lg border border-amber-500/30 hover:border-amber-500/70 transition-all">
                   <div className="text-amber-400 mb-3">
                     <Check size={32} className="mx-auto" />
                   </div>
@@ -215,7 +264,7 @@ const Index = () => {
                     Read specifications and write code that meets requirements
                   </p>
                 </div>
-                <div className="bg-gray-800 p-6 rounded-lg shadow-lg border border-red-500/30 hover:border-red-500/70 transition-all">
+                <div className="bg-gradient-to-br from-red-900/50 to-red-800/30 p-6 rounded-lg shadow-lg border border-red-500/30 hover:border-red-500/70 transition-all">
                   <div className="text-red-400 mb-3">
                     <Rocket size={32} className="mx-auto" />
                   </div>
@@ -224,19 +273,13 @@ const Index = () => {
                     Improve inefficient code to make it faster and better
                   </p>
                 </div>
-                <div className="bg-gray-800 p-6 rounded-lg shadow-lg border border-yellow-500/30 hover:border-yellow-500/70 transition-all">
-                  <div className="text-yellow-400 mb-3">
-                    <Trophy size={32} className="mx-auto" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Refactor Code</h3>
-                  <p className="text-gray-400 mb-4">
-                    Restructure existing code to improve readability and maintainability
-                  </p>
-                </div>
               </div>
             </div>
             <div className="mt-8">
-              <h3 className="text-2xl font-semibold mb-4">Available Challenges</h3>
+              <h3 className="text-2xl font-semibold mb-6 flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                <Trophy className="h-6 w-6 text-blue-400" />
+                Available Challenges
+              </h3>
               <ChallengeSelector 
                 challenges={challenges} 
                 onSelectChallenge={handleChallengeSelect} 
@@ -244,7 +287,7 @@ const Index = () => {
             </div>
           </div>
         ) : (
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <Button 
@@ -256,12 +299,18 @@ const Index = () => {
                 </Button>
                 <h2 className="text-2xl font-bold">{selectedChallenge.title}</h2>
                 <div className="flex items-center gap-2 text-gray-400">
-                  {challengeTypeIcon(selectedChallenge.type)}
-                  <span>{challengeTypeLabel(selectedChallenge.type)}</span>
+                  {challengeTypeIcon(selectedChallenge.type as ChallengeType)}
+                  <span>{challengeTypeLabel(selectedChallenge.type as ChallengeType)}</span>
                   {selectedChallenge.points && (
                     <div className="flex items-center gap-1 text-yellow-400 ml-4">
                       <Star className="h-4 w-4 fill-yellow-400" />
                       <span className="font-bold">{selectedChallenge.points} points</span>
+                    </div>
+                  )}
+                  {selectedChallenge.requiresPassword && (
+                    <div className="flex items-center gap-1 text-gray-400 ml-4">
+                      <Lock className="h-4 w-4" />
+                      <span>Solution protected</span>
                     </div>
                   )}
                 </div>
@@ -269,20 +318,27 @@ const Index = () => {
               <div className="flex gap-2">
                 <Button 
                   variant="secondary" 
-                  onClick={() => setShowSolution(!showSolution)}
+                  onClick={handleSolutionRequest}
+                  className="flex items-center gap-2"
                 >
+                  {selectedChallenge.requiresPassword && <Lock className="h-4 w-4" />}
                   {showSolution ? "Hide Solution" : "Show Solution"}
                 </Button>
-                <Button onClick={handleSubmit}>Check Solution</Button>
+                <Button onClick={handleSubmit} className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+                  Check Solution
+                </Button>
               </div>
             </div>
 
-            <div className="bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
+            <div className="bg-gray-800/70 p-6 rounded-lg shadow-lg mb-6 border border-purple-500/20">
               <h3 className="text-xl font-semibold mb-2">Challenge Description</h3>
               <p className="text-gray-300 mb-4">{selectedChallenge.description}</p>
               {selectedChallenge.hints && (
-                <div className="bg-gray-700 p-4 rounded-md mb-4">
-                  <h4 className="font-semibold text-purple-300 mb-2">Hint:</h4>
+                <div className="bg-gray-700/50 p-4 rounded-md mb-4 border border-purple-500/20">
+                  <h4 className="font-semibold text-purple-300 mb-2 flex items-center gap-2">
+                    <Lightbulb className="h-4 w-4" />
+                    Hint:
+                  </h4>
                   <p className="text-gray-300">{selectedChallenge.hints}</p>
                 </div>
               )}
@@ -317,8 +373,11 @@ const Index = () => {
             )}
 
             {showSolution && (
-              <div className="mt-8 bg-gray-800 p-6 rounded-lg shadow-lg">
-                <h3 className="text-xl font-semibold mb-3 text-purple-400">Solution</h3>
+              <div className="mt-8 bg-gray-800/70 p-6 rounded-lg shadow-lg border border-purple-500/20">
+                <h3 className="text-xl font-semibold mb-3 text-purple-400 flex items-center gap-2">
+                  <Trophy className="h-5 w-5" />
+                  Solution
+                </h3>
                 <CodeEditor 
                   value={selectedChallenge.solutionCode || selectedChallenge.solution} 
                   onChange={() => {}} 
@@ -337,7 +396,35 @@ const Index = () => {
         )}
       </main>
 
-      <footer className="bg-gray-800 py-6 mt-12">
+      <Dialog open={isPasswordDialogOpen} onOpenChange={setIsPasswordDialogOpen}>
+        <DialogContent className="bg-gray-800 border-purple-500/20 text-white">
+          <DialogHeader>
+            <DialogTitle>Solution is Password Protected</DialogTitle>
+            <DialogDescription>
+              Enter the password to view the solution for this challenge.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <Input 
+              type="password"
+              placeholder="Enter password"
+              className="bg-gray-700 border-gray-600"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsPasswordDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handlePasswordSubmit}>
+              Submit
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <footer className="bg-gray-800 py-6 mt-12 border-t border-purple-500/20">
         <div className="container mx-auto px-4 text-center text-gray-400">
           <p>Code Detective Playground - Practice your debugging and coding skills</p>
         </div>

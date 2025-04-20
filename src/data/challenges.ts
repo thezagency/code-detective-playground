@@ -1,4 +1,4 @@
-import { Challenge, ChallengeType, DifficultyLevel } from "@/types/challenge";
+import { Challenge, ChallengeType, DifficultyLevel, ProgrammingLanguage } from "@/types/challenge";
 
 // Helper function to create challenge IDs
 const generateId = (() => {
@@ -15,7 +15,7 @@ const beginnerChallenges: Challenge[] = [
     description: "This function is supposed to calculate the sum of all numbers in an array. However, it contains a bug that causes it to return incorrect results. Find and fix the error.",
     difficulty: DifficultyLevel.BEGINNER,
     type: ChallengeType.FIND_ERROR,
-    language: "javascript",
+    language: ProgrammingLanguage.JAVASCRIPT,
     initialCode: `function calculateSum(arr) {
   let sum = 0;
   
@@ -54,7 +54,7 @@ console.log(calculateSum(numbers)); // Returns 75 correctly`,
     description: "Write a function that takes a string as input and returns the string reversed, without using the built-in reverse() method. Your function should work for any string input.",
     difficulty: DifficultyLevel.BEGINNER,
     type: ChallengeType.READ_WRITE,
-    language: "javascript",
+    language: ProgrammingLanguage.JAVASCRIPT,
     initialCode: `function reverseString(str) {
   // Write your code here
 }
@@ -89,7 +89,7 @@ console.log(reverseString("JavaScript")); // "tpircSavaJ"`,
     description: "This function is supposed to filter out odd numbers and return only even numbers from an array. However, it's not working correctly. Find and fix the error.",
     difficulty: DifficultyLevel.BEGINNER,
     type: ChallengeType.FIND_ERROR,
-    language: "javascript",
+    language: ProgrammingLanguage.JAVASCRIPT,
     initialCode: `function getEvenNumbers(numbers) {
   return numbers.filter(num => num / 2 === 0);
 }
@@ -114,7 +114,7 @@ console.log(getEvenNumbers([1, 2, 3, 4, 5, 6])); // Returns [2, 4, 6]`,
     description: "Complete the function to create a personalized greeting. The function should take a name and return a greeting message with the name included.",
     difficulty: DifficultyLevel.BEGINNER,
     type: ChallengeType.COMPLETE_CODE,
-    language: "javascript",
+    language: ProgrammingLanguage.JAVASCRIPT,
     initialCode: `function createGreeting(name) {
   // Your code here - make the function return "Hello, [name]!"
 }
@@ -141,7 +141,7 @@ console.log(createGreeting("World")); // Returns "Hello, World!"`,
     description: "Look at the following code and predict what will be printed to the console.",
     difficulty: DifficultyLevel.BEGINNER,
     type: ChallengeType.GUESS_OUTPUT,
-    language: "javascript",
+    language: ProgrammingLanguage.JAVASCRIPT,
     initialCode: `let x = 5;
 let y = "10";
 let z = 2;
@@ -153,6 +153,138 @@ console.log(y - z);`,
     expectedOutput: "510\n10\n8",
     hints: "Remember that JavaScript performs type conversion depending on the operation.",
     explanation: "In the first line, + operates as concatenation since one operand is a string, resulting in '510'. In the second line, * forces conversion of operands to numbers, giving 10. In the third line, - also forces conversion to numbers, resulting in 8.",
+    points: 10
+  },
+  
+  // TypeScript Beginner Challenges
+  {
+    id: generateId(),
+    title: "Fix the TypeScript Interface",
+    shortDescription: "Find and fix the error in a TypeScript interface",
+    description: "This TypeScript code defines an interface for a User object, but there's a syntax error in the interface definition. Find and fix it.",
+    difficulty: DifficultyLevel.BEGINNER,
+    type: ChallengeType.FIND_ERROR,
+    language: ProgrammingLanguage.TYPESCRIPT,
+    initialCode: `interface User {
+  id: number,
+  name: string,
+  email: string,
+  isActive boolean // There's an error here
+}
+
+// Example usage
+const user: User = {
+  id: 1,
+  name: "John Doe",
+  email: "john@example.com",
+  isActive: true
+};
+
+console.log(user);`,
+    solution: "isActive: boolean",
+    solutionCode: `interface User {
+  id: number,
+  name: string,
+  email: string,
+  isActive: boolean // Fixed: added the colon
+}
+
+// Example usage
+const user: User = {
+  id: 1,
+  name: "John Doe",
+  email: "john@example.com",
+  isActive: true
+};
+
+console.log(user);`,
+    hints: "Look carefully at the syntax of property definitions in TypeScript interfaces.",
+    explanation: "The error was a missing colon (:) between the property name 'isActive' and its type 'boolean'. In TypeScript interfaces, properties should be defined using the format 'propertyName: type'.",
+    points: 10
+  },
+  {
+    id: generateId(),
+    title: "Complete the Generic Function",
+    shortDescription: "Implement a generic function in TypeScript",
+    description: "Complete the generic function that takes an array of any type and returns the first element. Make sure it handles empty arrays properly.",
+    difficulty: DifficultyLevel.BEGINNER,
+    type: ChallengeType.COMPLETE_CODE,
+    language: ProgrammingLanguage.TYPESCRIPT,
+    initialCode: `// Complete this generic function that returns the first element of an array
+// If the array is empty, it should return undefined
+function getFirstElement<T>(arr: T[]): T | undefined {
+  // Your code here
+}
+
+// Example usage
+console.log(getFirstElement([1, 2, 3])); // Should output 1
+console.log(getFirstElement(["a", "b", "c"])); // Should output "a"
+console.log(getFirstElement([])); // Should output undefined`,
+    solution: `return arr.length > 0 ? arr[0] : undefined;`,
+    solutionCode: `function getFirstElement<T>(arr: T[]): T | undefined {
+  return arr.length > 0 ? arr[0] : undefined;
+}
+
+// Example usage
+console.log(getFirstElement([1, 2, 3])); // Outputs 1
+console.log(getFirstElement(["a", "b", "c"])); // Outputs "a"
+console.log(getFirstElement([])); // Outputs undefined`,
+    expectedOutput: "1\na\nundefined",
+    hints: "Check the length of the array before trying to access the first element.",
+    points: 15
+  },
+  
+  // Python Beginner Challenge
+  {
+    id: generateId(),
+    title: "Fix the Python List Comprehension",
+    shortDescription: "Find and fix the error in a Python list comprehension",
+    description: "This Python code attempts to create a list of squares of even numbers from 0 to 9 using a list comprehension, but it contains an error. Find and fix it.",
+    difficulty: DifficultyLevel.BEGINNER,
+    type: ChallengeType.FIND_ERROR,
+    language: ProgrammingLanguage.PYTHON,
+    initialCode: `# Create a list of squares of even numbers from 0 to 9
+squares = [x**2 for in range(10) if x % 2 == 0]
+
+print(squares)  # Should print [0, 4, 16, 36, 64]`,
+    solution: "[x**2 for x in range(10) if x % 2 == 0]",
+    solutionCode: `# Create a list of squares of even numbers from 0 to 9
+squares = [x**2 for x in range(10) if x % 2 == 0]
+
+print(squares)  # Prints [0, 4, 16, 36, 64]`,
+    hints: "Check the syntax of the list comprehension. Is there a variable missing?",
+    explanation: "The error was that the variable 'x' was missing after 'for' in the list comprehension. The correct syntax for a list comprehension is '[expression for variable in iterable if condition]'.",
+    points: 10
+  },
+  
+  // Java Beginner Challenge
+  {
+    id: generateId(),
+    title: "Fix the Java Loop",
+    shortDescription: "Find and fix the error in a Java for loop",
+    description: "This Java code is supposed to print numbers from 1 to 5, but there's an issue with the loop. Find and fix the error.",
+    difficulty: DifficultyLevel.BEGINNER,
+    type: ChallengeType.FIND_ERROR,
+    language: ProgrammingLanguage.JAVA,
+    initialCode: `public class Main {
+    public static void main(String[] args) {
+        // Print numbers from 1 to 5
+        for (int i = 1; i < 5; i++) {
+            System.out.println(i);
+        }
+    }
+}`,
+    solution: "for (int i = 1; i <= 5; i++) {",
+    solutionCode: `public class Main {
+    public static void main(String[] args) {
+        // Print numbers from 1 to 5
+        for (int i = 1; i <= 5; i++) {
+            System.out.println(i);
+        }
+    }
+}`,
+    hints: "The loop should include 5 in its output. Check the loop condition.",
+    explanation: "The error was in the loop condition. Using 'i < 5' means the loop would only go up to 4. Changing it to 'i <= 5' ensures the loop includes 5 in its output.",
     points: 10
   }
 ];
@@ -166,7 +298,7 @@ const intermediateChallenges: Challenge[] = [
     description: "Complete the missing parts of the function to generate the Fibonacci sequence up to n numbers. The Fibonacci sequence starts with 0 and 1, and each subsequent number is the sum of the two preceding ones.",
     difficulty: DifficultyLevel.INTERMEDIATE,
     type: ChallengeType.COMPLETE_CODE,
-    language: "javascript",
+    language: ProgrammingLanguage.JAVASCRIPT,
     initialCode: `function generateFibonacci(n) {
   if (n <= 0) return [];
   if (n === 1) return [0];
@@ -210,7 +342,7 @@ console.log(generateFibonacci(8)); // Returns [0, 1, 1, 2, 3, 5, 8, 13]`,
     description: "Review the following code with nested loops and predict what will be printed to the console. Write your answer exactly as it would appear, with proper line breaks.",
     difficulty: DifficultyLevel.INTERMEDIATE,
     type: ChallengeType.GUESS_OUTPUT,
-    language: "javascript",
+    language: ProgrammingLanguage.JAVASCRIPT,
     initialCode: `let output = '';
 
 for (let i = 1; i <= 4; i++) {
@@ -234,7 +366,7 @@ console.log(output);`,
     description: "Complete the geometric area calculator class by implementing the missing methods for calculating the area of a circle and a triangle.",
     difficulty: DifficultyLevel.INTERMEDIATE,
     type: ChallengeType.COMPLETE_CODE,
-    language: "javascript",
+    language: ProgrammingLanguage.JAVASCRIPT,
     initialCode: `class AreaCalculator {
   // Calculate area of rectangle (implemented for reference)
   calculateRectangleArea(width, height) {
@@ -295,7 +427,7 @@ console.log(calculator.calculateTriangleArea(6, 4)); // 12`,
     description: "This code attempts to extract properties from an object using destructuring, but there's an error. Find and fix it.",
     difficulty: DifficultyLevel.INTERMEDIATE,
     type: ChallengeType.FIND_ERROR,
-    language: "javascript",
+    language: ProgrammingLanguage.JAVASCRIPT,
     initialCode: `const person = {
   name: 'Alex',
   age: 28,
@@ -342,7 +474,7 @@ console.log(zip);  // Prints '10001'`,
     description: "Write a function that determines if a given string is a palindrome (reads the same forward and backward). Ignore case and non-alphanumeric characters.",
     difficulty: DifficultyLevel.INTERMEDIATE,
     type: ChallengeType.READ_WRITE,
-    language: "javascript",
+    language: ProgrammingLanguage.JAVASCRIPT,
     initialCode: `function isPalindrome(str) {
   // Write your code here
 }
@@ -373,6 +505,116 @@ console.log(isPalindrome("A man, a plan, a canal: Panama")); // true`,
     expectedOutput: "true\nfalse\ntrue",
     hints: "You'll need to handle preprocessing the string (remove spaces and special characters, convert to lowercase) before checking if it's a palindrome.",
     points: 25
+  },
+  
+  // TypeScript Intermediate Challenge
+  {
+    id: generateId(),
+    title: "Implement a TypeScript Utility Type",
+    shortDescription: "Create a custom TypeScript utility type that extracts object keys",
+    description: "Implement a TypeScript utility type called 'ValueOf' that extracts the type of values in an object. This is similar to the 'keyof' operator but for values.",
+    difficulty: DifficultyLevel.INTERMEDIATE,
+    type: ChallengeType.READ_WRITE,
+    language: ProgrammingLanguage.TYPESCRIPT,
+    initialCode: `// Implement the ValueOf<T> utility type
+// It should extract the types of values in object T
+
+// Example usage:
+interface User {
+  id: number;
+  name: string;
+  isAdmin: boolean;
+}
+
+// This should be equivalent to: type UserValues = number | string | boolean
+type UserValues = ValueOf<User>;
+
+// Test case
+const test1: UserValues = 42; // Should be valid
+const test2: UserValues = "hello"; // Should be valid
+const test3: UserValues = true; // Should be valid
+const test4: UserValues = {}; // Should be a type error`,
+    solution: `type ValueOf<T> = T[keyof T];`,
+    solutionCode: `// Implement the ValueOf<T> utility type
+// It should extract the types of values in object T
+type ValueOf<T> = T[keyof T];
+
+// Example usage:
+interface User {
+  id: number;
+  name: string;
+  isAdmin: boolean;
+}
+
+// This should be equivalent to: type UserValues = number | string | boolean
+type UserValues = ValueOf<User>;
+
+// Test case
+const test1: UserValues = 42; // Valid
+const test2: UserValues = "hello"; // Valid
+const test3: UserValues = true; // Valid
+const test4: UserValues = {}; // Type error: {} is not assignable to type UserValues`,
+    hints: "Think about how you can use 'keyof' and indexed access types together to extract the type of values.",
+    explanation: "The ValueOf<T> utility type uses indexed access types with 'keyof' to extract all the possible value types from type T. It works by taking the union of all property types from the given object type.",
+    points: 25,
+    requiresPassword: true
+  },
+  
+  // Python Intermediate Challenge
+  {
+    id: generateId(),
+    title: "Complete the Python Generator Function",
+    shortDescription: "Implement a Fibonacci sequence generator in Python",
+    description: "Complete the Python generator function that yields numbers from the Fibonacci sequence up to a specified limit.",
+    difficulty: DifficultyLevel.INTERMEDIATE,
+    type: ChallengeType.COMPLETE_CODE,
+    language: ProgrammingLanguage.PYTHON,
+    initialCode: `def fibonacci_generator(limit):
+    """
+    A generator function that yields Fibonacci numbers up to the given limit.
+    
+    Args:
+        limit (int): The maximum value (inclusive) for the generated Fibonacci numbers.
+        
+    Yields:
+        int: The next Fibonacci number in the sequence.
+    """
+    # Your code here
+    
+    
+# Example usage
+for num in fibonacci_generator(50):
+    print(num, end=" ")
+# Should output: 0 1 1 2 3 5 8 13 21 34`,
+    solution: `a, b = 0, 1
+    yield a
+    while b <= limit:
+        yield b
+        a, b = b, a + b`,
+    solutionCode: `def fibonacci_generator(limit):
+    """
+    A generator function that yields Fibonacci numbers up to the given limit.
+    
+    Args:
+        limit (int): The maximum value (inclusive) for the generated Fibonacci numbers.
+        
+    Yields:
+        int: The next Fibonacci number in the sequence.
+    """
+    a, b = 0, 1
+    yield a
+    while b <= limit:
+        yield b
+        a, b = b, a + b
+    
+    
+# Example usage
+for num in fibonacci_generator(50):
+    print(num, end=" ")
+# Output: 0 1 1 2 3 5 8 13 21 34`,
+    expectedOutput: "0 1 1 2 3 5 8 13 21 34 ",
+    hints: "You'll need to use the 'yield' keyword for each Fibonacci number, and keep track of the current and next number in the sequence.",
+    points: 25
   }
 ];
 
@@ -385,7 +627,7 @@ const advancedChallenges: Challenge[] = [
     description: "This recursive factorial function has a bug that causes it to enter an infinite recursion for valid inputs. Find and fix the bug.",
     difficulty: DifficultyLevel.ADVANCED,
     type: ChallengeType.FIND_ERROR,
-    language: "javascript",
+    language: ProgrammingLanguage.JAVASCRIPT,
     initialCode: `function factorial(n) {
   if (n <= 0) {
     return 1;
@@ -418,7 +660,7 @@ console.log(factorial(5)); // Returns 120 correctly`,
     description: "Review the following code that uses various array methods. Predict what will be printed to the console for each line.",
     difficulty: DifficultyLevel.ADVANCED,
     type: ChallengeType.GUESS_OUTPUT,
-    language: "javascript",
+    language: ProgrammingLanguage.JAVASCRIPT,
     initialCode: `const fruits = ['apple', 'banana', 'cherry'];
 const numbers = [1, 2, 3, 4, 5];
 
@@ -448,7 +690,7 @@ console.log(numbers.reduce((sum, n) => sum + n, 0));`,
     description: "This code tries to implement a series of asynchronous operations using promises, but it contains errors that break the chain. Identify and fix the issues.",
     difficulty: DifficultyLevel.ADVANCED,
     type: ChallengeType.FIND_ERROR,
-    language: "javascript",
+    language: ProgrammingLanguage.JAVASCRIPT,
     initialCode: `function fetchData() {
   return new Promise((resolve) => {
     setTimeout(() => resolve("Data fetched!"), 1000);
@@ -515,637 +757,4 @@ fetchData()
   {
     id: generateId(),
     title: "Implement a Deep Object Clone Function",
-    shortDescription: "Write a function that creates a deep copy of an object",
-    description: "Create a function that performs a deep clone of an object, handling nested objects and arrays but not functions, RegExp, Date, Map, Set, or circular references.",
-    difficulty: DifficultyLevel.ADVANCED,
-    type: ChallengeType.READ_WRITE,
-    language: "javascript",
-    initialCode: `function deepClone(obj) {
-  // Write your code here
-}
-
-// Example usage
-const original = {
-  a: 1,
-  b: { c: 2, d: [3, 4] },
-  e: [5, { f: 6 }]
-};
-
-const clone = deepClone(original);
-console.log(clone); // Should look like original
-console.log(clone === original); // Should be false
-console.log(clone.b === original.b); // Should be false
-console.log(clone.e === original.e); // Should be false`,
-    solution: `  if (obj === null || typeof obj !== 'object') {
-    return obj;
-  }
-  
-  // Handle arrays
-  if (Array.isArray(obj)) {
-    return obj.map(item => deepClone(item));
-  }
-  
-  // Handle objects
-  const cloned = {};
-  Object.keys(obj).forEach(key => {
-    cloned[key] = deepClone(obj[key]);
-  });
-  
-  return cloned;`,
-    solutionCode: `function deepClone(obj) {
-  if (obj === null || typeof obj !== 'object') {
-    return obj;
-  }
-  
-  // Handle arrays
-  if (Array.isArray(obj)) {
-    return obj.map(item => deepClone(item));
-  }
-  
-  // Handle objects
-  const cloned = {};
-  Object.keys(obj).forEach(key => {
-    cloned[key] = deepClone(obj[key]);
-  });
-  
-  return cloned;
-}
-
-// Example usage
-const original = {
-  a: 1,
-  b: { c: 2, d: [3, 4] },
-  e: [5, { f: 6 }]
-};
-
-const clone = deepClone(original);
-console.log(clone); // Looks like original
-console.log(clone === original); // false
-console.log(clone.b === original.b); // false
-console.log(clone.e === original.e); // false`,
-    hints: "Use recursion to handle nested objects and arrays. Handle primitives and different object types separately.",
-    points: 40
-  },
-  {
-    id: generateId(),
-    title: "Optimize the Fibonacci Sequence",
-    shortDescription: "Refactor a Fibonacci function to be more efficient",
-    description: "The given Fibonacci implementation is inefficient due to redundant recursive calls. Optimize it using memoization or iteration to improve its performance without changing its result.",
-    difficulty: DifficultyLevel.ADVANCED,
-    type: ChallengeType.OPTIMIZE_CODE,
-    language: "javascript",
-    initialCode: `// Inefficient recursive implementation
-function fibonacci(n) {
-  if (n <= 1) return n;
-  return fibonacci(n - 1) + fibonacci(n - 2);
-}
-
-// Test with a moderate value
-console.time('fibonacci');
-console.log(fibonacci(30)); // This will be slow
-console.timeEnd('fibonacci');`,
-    solution: `// Optimized with memoization
-function fibonacci(n, memo = {}) {
-  if (n <= 1) return n;
-  
-  if (memo[n]) return memo[n];
-  
-  memo[n] = fibonacci(n - 1, memo) + fibonacci(n - 2, memo);
-  return memo[n];
-}`,
-    solutionCode: `// Optimized with memoization
-function fibonacci(n, memo = {}) {
-  if (n <= 1) return n;
-  
-  if (memo[n]) return memo[n];
-  
-  memo[n] = fibonacci(n - 1, memo) + fibonacci(n - 2, memo);
-  return memo[n];
-}
-
-// Test with a moderate value
-console.time('fibonacci');
-console.log(fibonacci(30)); // Much faster now
-console.timeEnd('fibonacci');
-
-// Alternative iterative solution
-/*
-function fibonacci(n) {
-  if (n <= 1) return n;
-  
-  let a = 0, b = 1;
-  for (let i = 2; i <= n; i++) {
-    const temp = a + b;
-    a = b;
-    b = temp;
-  }
-  
-  return b;
-}
-*/`,
-    hints: "Consider using memoization to store previously calculated results or switch to an iterative approach.",
-    explanation: "The original recursive implementation had exponential time complexity O(2^n) due to redundant calculations. The optimized solution uses memoization to store previously calculated values, reducing the time complexity to O(n).",
-    points: 35
-  }
-];
-
-// MONSTER CHALLENGES
-const monsterChallenges: Challenge[] = [
-  {
-    id: generateId(),
-    title: "Debug Complex Recursive Tree Traversal",
-    shortDescription: "Fix a bug in a complex tree traversal algorithm",
-    description: "This binary tree traversal algorithm has a subtle bug that causes incorrect results for certain tree structures. Find and fix the issue.",
-    difficulty: DifficultyLevel.MONSTER,
-    type: ChallengeType.DEBUG_RECURSIVE,
-    language: "javascript",
-    initialCode: `class TreeNode {
-  constructor(value) {
-    this.value = value;
-    this.left = null;
-    this.right = null;
-  }
-}
-
-// This function should count the number of leaf nodes in a binary tree
-function countLeafNodes(root) {
-  // Base case
-  if (!root) {
-    return 0;
-  }
-  
-  // If it's a leaf node
-  if (!root.left && !root.right) {
-    return 1;
-  }
-  
-  // Count leaves in left and right subtrees
-  return countLeafNodes(root.left) + countLeafNodes(root.left);
-}
-
-// Create a test tree
-const root = new TreeNode(1);
-root.left = new TreeNode(2);
-root.right = new TreeNode(3);
-root.left.left = new TreeNode(4);
-root.left.right = new TreeNode(5);
-root.right.left = new TreeNode(6);
-
-// This should return 3 (nodes 4, 5, and 6 are leaves)
-console.log(countLeafNodes(root));`,
-    solution: "return countLeafNodes(root.left) + countLeafNodes(root.right);",
-    solutionCode: `class TreeNode {
-  constructor(value) {
-    this.value = value;
-    this.left = null;
-    this.right = null;
-  }
-}
-
-// Fixed function to count the number of leaf nodes in a binary tree
-function countLeafNodes(root) {
-  // Base case
-  if (!root) {
-    return 0;
-  }
-  
-  // If it's a leaf node
-  if (!root.left && !root.right) {
-    return 1;
-  }
-  
-  // Count leaves in left and right subtrees
-  return countLeafNodes(root.left) + countLeafNodes(root.right);
-}
-
-// Create a test tree
-const root = new TreeNode(1);
-root.left = new TreeNode(2);
-root.right = new TreeNode(3);
-root.left.left = new TreeNode(4);
-root.left.right = new TreeNode(5);
-root.right.left = new TreeNode(6);
-
-// This now correctly returns 3 (nodes 4, 5, and 6 are leaves)
-console.log(countLeafNodes(root));`,
-    hints: "Check the recursive calls carefully. Are they covering the entire tree structure correctly?",
-    explanation: "The bug was in the recursive part where both calls were to root.left instead of one to root.left and one to root.right. This meant the right subtree was never being traversed, leading to an incorrect leaf count.",
-    points: 50
-  },
-  {
-    id: generateId(),
-    title: "Implement a Debounce Function",
-    shortDescription: "Write a function that limits how often a function can be called",
-    description: "Create a debounce function that limits the frequency at which a function can be called. It should take a function and a delay time, and return a new function that will postpone its execution until after the specified wait time has elapsed since the last time it was invoked.",
-    difficulty: DifficultyLevel.MONSTER,
-    type: ChallengeType.READ_WRITE,
-    language: "javascript",
-    initialCode: `function debounce(func, wait) {
-  // Write your code here
-}
-
-// Example usage
-function handleInput(text) {
-  console.log('Input received:', text);
-}
-
-// Create a debounced version that only triggers after 300ms of inactivity
-const debouncedHandle = debounce(handleInput, 300);
-
-// Simulate rapid calls (only the last one should execute after 300ms)
-debouncedHandle('a');
-debouncedHandle('ab');
-debouncedHandle('abc');
-debouncedHandle('abcd'); // Only this one should be logged after 300ms`,
-    solution: `  let timeout;
-  
-  return function(...args) {
-    clearTimeout(timeout);
-    
-    timeout = setTimeout(() => {
-      func.apply(this, args);
-    }, wait);
-  };`,
-    solutionCode: `function debounce(func, wait) {
-  let timeout;
-  
-  return function(...args) {
-    clearTimeout(timeout);
-    
-    timeout = setTimeout(() => {
-      func.apply(this, args);
-    }, wait);
-  };
-}
-
-// Example usage
-function handleInput(text) {
-  console.log('Input received:', text);
-}
-
-// Create a debounced version that only triggers after 300ms of inactivity
-const debouncedHandle = debounce(handleInput, 300);
-
-// Simulate rapid calls (only the last one should execute after 300ms)
-debouncedHandle('a');
-debouncedHandle('ab');
-debouncedHandle('abc');
-debouncedHandle('abcd'); // Only this one should be logged after 300ms`,
-    hints: "You'll need to use closures to maintain state between function calls, and setTimeout to delay the execution.",
-    points: 45
-  },
-  {
-    id: generateId(),
-    title: "Fix the Memory Leak",
-    shortDescription: "Identify and fix a subtle memory leak in a closure",
-    description: "This code creates a memory leak due to how closures and event listeners interact. Find the issue and fix it so it doesn't leak memory when createButton is called multiple times.",
-    difficulty: DifficultyLevel.MONSTER,
-    type: ChallengeType.FIND_ERROR,
-    language: "javascript",
-    initialCode: `// Simplified DOM-like environment for testing
-const domElements = [];
-
-// DOM element simulation
-class Element {
-  constructor(type) {
-    this.type = type;
-    this.eventListeners = {};
-    this.textContent = '';
-  }
-  
-  addEventListener(event, listener) {
-    if (!this.eventListeners[event]) {
-      this.eventListeners[event] = [];
-    }
-    this.eventListeners[event].push(listener);
-  }
-  
-  removeEventListener(event, listener) {
-    if (this.eventListeners[event]) {
-      this.eventListeners[event] = this.eventListeners[event]
-        .filter(l => l !== listener);
-    }
-  }
-}
-
-// This function has a memory leak
-function createButton(text, data) {
-  const button = new Element('button');
-  button.textContent = text;
-  
-  // Event handler
-  const handleClick = function() {
-    console.log('Processing data:', data);
-  };
-  
-  button.addEventListener('click', handleClick);
-  
-  return button;
-}
-
-// Simulate creating many buttons with large data
-function simulateMemoryLeak() {
-  for (let i = 0; i < 10; i++) {
-    const largeData = new Array(1000000).fill('x');
-    const button = createButton('Button ' + i, largeData);
-    domElements.push(button);
-  }
-  
-  // Remove all but keep references to handlers
-  domElements.length = 0;
-}
-
-simulateMemoryLeak();
-// In a real environment, the large data arrays would still be in memory
-// because the event handlers reference them, even when the buttons are "removed"`,
-    solution: `  // This function returns a function that can be used to later
-  // remove the event listener
-  return {
-    element: button,
-    cleanup: function() {
-      button.removeEventListener('click', handleClick);
-    }
-  };`,
-    solutionCode: `// Simplified DOM-like environment for testing
-const domElements = [];
-
-// DOM element simulation
-class Element {
-  constructor(type) {
-    this.type = type;
-    this.eventListeners = {};
-    this.textContent = '';
-  }
-  
-  addEventListener(event, listener) {
-    if (!this.eventListeners[event]) {
-      this.eventListeners[event] = [];
-    }
-    this.eventListeners[event].push(listener);
-  }
-  
-  removeEventListener(event, listener) {
-    if (this.eventListeners[event]) {
-      this.eventListeners[event] = this.eventListeners[event]
-        .filter(l => l !== listener);
-    }
-  }
-}
-
-// Fixed function with cleanup capability
-function createButton(text, data) {
-  const button = new Element('button');
-  button.textContent = text;
-  
-  // Event handler
-  const handleClick = function() {
-    console.log('Processing data:', data);
-  };
-  
-  button.addEventListener('click', handleClick);
-  
-  // This function returns a function that can be used to later
-  // remove the event listener
-  return {
-    element: button,
-    cleanup: function() {
-      button.removeEventListener('click', handleClick);
-    }
-  };
-}
-
-// Simulate creating many buttons with large data
-function simulateMemoryLeak() {
-  const buttonWrappers = [];
-  
-  for (let i = 0; i < 10; i++) {
-    const largeData = new Array(1000000).fill('x');
-    const buttonWrapper = createButton('Button ' + i, largeData);
-    buttonWrappers.push(buttonWrapper);
-    domElements.push(buttonWrapper.element);
-  }
-  
-  // Proper cleanup when "removing" buttons
-  buttonWrappers.forEach(wrapper => wrapper.cleanup());
-  domElements.length = 0;
-}
-
-simulateMemoryLeak();
-// Now the large data arrays can be garbage collected
-// because we've removed the event listeners that referenced them`,
-    hints: "Think about what happens to event listeners when elements are removed from the DOM. JavaScript's garbage collection won't collect objects that are still referenced by something else.",
-    explanation: "The memory leak occurred because the event handlers maintained references to the large data arrays, preventing them from being garbage collected even after the buttons were 'removed'. The fix provides a cleanup function that allows for explicit removal of the event listeners, breaking the reference chain and allowing the garbage collector to reclaim the memory.",
-    points: 50
-  },
-  {
-    id: generateId(),
-    title: "Refactor a Callback Mess",
-    shortDescription: "Refactor nested callbacks into clean async/await or Promise code",
-    description: "This code suffers from 'callback hell' with excessive nesting. Refactor it to use Promises and/or async/await to make it more readable and maintainable, while preserving the same functionality and order of operations.",
-    difficulty: DifficultyLevel.MONSTER,
-    type: ChallengeType.REFACTOR_CODE,
-    language: "javascript",
-    initialCode: `// Simulated async operations
-function getUserData(userId, callback) {
-  setTimeout(() => {
-    const userData = { id: userId, name: 'User ' + userId };
-    callback(null, userData);
-  }, 300);
-}
-
-function getUserPosts(userId, callback) {
-  setTimeout(() => {
-    const posts = [
-      { id: 1, title: 'Post 1 by user ' + userId },
-      { id: 2, title: 'Post 2 by user ' + userId }
-    ];
-    callback(null, posts);
-  }, 200);
-}
-
-function getPostComments(postId, callback) {
-  setTimeout(() => {
-    const comments = [
-      { id: 1, text: 'Comment 1 on post ' + postId },
-      { id: 2, text: 'Comment 2 on post ' + postId }
-    ];
-    callback(null, comments);
-  }, 100);
-}
-
-// Callback hell - deeply nested callbacks
-function loadUserData(userId) {
-  getUserData(userId, (error, user) => {
-    if (error) {
-      console.error('Error fetching user:', error);
-      return;
-    }
-    
-    console.log('User:', user);
-    
-    getUserPosts(user.id, (error, posts) => {
-      if (error) {
-        console.error('Error fetching posts:', error);
-        return;
-      }
-      
-      console.log('Posts:', posts);
-      
-      const firstPost = posts[0];
-      getPostComments(firstPost.id, (error, comments) => {
-        if (error) {
-          console.error('Error fetching comments:', error);
-          return;
-        }
-        
-        console.log('Comments on first post:', comments);
-        console.log('Operation complete');
-      });
-    });
-  });
-}
-
-// Execute the function
-loadUserData(123);`,
-    solution: `// Promisified versions
-function getUserData(userId) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const userData = { id: userId, name: 'User ' + userId };
-      resolve(userData);
-    }, 300);
-  });
-}
-
-function getUserPosts(userId) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const posts = [
-        { id: 1, title: 'Post 1 by user ' + userId },
-        { id: 2, title: 'Post 2 by user ' + userId }
-      ];
-      resolve(posts);
-    }, 200);
-  });
-}
-
-function getPostComments(postId) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const comments = [
-        { id: 1, text: 'Comment 1 on post ' + postId },
-        { id: 2, text: 'Comment 2 on post ' + postId }
-      ];
-      resolve(comments);
-    }, 100);
-  });
-}
-
-// Refactored async/await version
-async function loadUserData(userId) {
-  try {
-    const user = await getUserData(userId);
-    console.log('User:', user);
-    
-    const posts = await getUserPosts(user.id);
-    console.log('Posts:', posts);
-    
-    const firstPost = posts[0];
-    const comments = await getPostComments(firstPost.id);
-    console.log('Comments on first post:', comments);
-    console.log('Operation complete');
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}`,
-    solutionCode: `// Promisified versions
-function getUserData(userId) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const userData = { id: userId, name: 'User ' + userId };
-      resolve(userData);
-    }, 300);
-  });
-}
-
-function getUserPosts(userId) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const posts = [
-        { id: 1, title: 'Post 1 by user ' + userId },
-        { id: 2, title: 'Post 2 by user ' + userId }
-      ];
-      resolve(posts);
-    }, 200);
-  });
-}
-
-function getPostComments(postId) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const comments = [
-        { id: 1, text: 'Comment 1 on post ' + postId },
-        { id: 2, text: 'Comment 2 on post ' + postId }
-      ];
-      resolve(comments);
-    }, 100);
-  });
-}
-
-// Refactored async/await version
-async function loadUserData(userId) {
-  try {
-    const user = await getUserData(userId);
-    console.log('User:', user);
-    
-    const posts = await getUserPosts(user.id);
-    console.log('Posts:', posts);
-    
-    const firstPost = posts[0];
-    const comments = await getPostComments(firstPost.id);
-    console.log('Comments on first post:', comments);
-    console.log('Operation complete');
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
-
-// Alternative Promise chain version
-/*
-function loadUserData(userId) {
-  return getUserData(userId)
-    .then(user => {
-      console.log('User:', user);
-      return getUserPosts(user.id).then(posts => ({ user, posts }));
-    })
-    .then(({ user, posts }) => {
-      console.log('Posts:', posts);
-      const firstPost = posts[0];
-      return getPostComments(firstPost.id).then(comments => ({ comments }));
-    })
-    .then(({ comments }) => {
-      console.log('Comments on first post:', comments);
-      console.log('Operation complete');
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-}
-*/
-
-// Execute the function
-loadUserData(123);`,
-    hints: "Consider converting each callback-based function to return a Promise, then use async/await or Promise chaining to sequence operations.",
-    explanation: "The refactoring converted callback-based functions to Promise-returning functions. Then, the deeply nested callbacks were replaced with clean async/await syntax, making the code much more readable while maintaining the same execution sequence. Error handling was also simplified using try/catch.",
-    points: 45
-  }
-];
-
-// COMBINE ALL CHALLENGES
-export const challenges: Challenge[] = [
-  ...beginnerChallenges,
-  ...intermediateChallenges,
-  ...advancedChallenges,
-  ...monsterChallenges,
-  // More challenges can be added here
-];
+    shortDescription: "Write a function that creates a deep

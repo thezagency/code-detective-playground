@@ -1,5 +1,5 @@
 
-import { AlertCircle, CheckCircle, Star } from "lucide-react";
+import { AlertCircle, CheckCircle, Lock, Star } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
 
@@ -10,6 +10,7 @@ interface ResultDisplayProps {
     expectedOutput?: string;
     points?: number;
     difficulty?: string;
+    requiresPassword?: boolean;
   };
 }
 
@@ -50,6 +51,13 @@ const ResultDisplay = ({ result }: ResultDisplayProps) => {
                 <pre className="mt-1 p-2 bg-gray-700/50 rounded text-sm overflow-auto">
                   {result.expectedOutput}
                 </pre>
+              </div>
+            )}
+
+            {result.requiresPassword && (
+              <div className="mt-2 flex items-center gap-2 text-amber-400">
+                <Lock className="h-4 w-4" />
+                <span>Solution requires password</span>
               </div>
             )}
           </AlertDescription>
