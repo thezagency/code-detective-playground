@@ -1,3 +1,4 @@
+
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +21,20 @@ interface ChallengeSelectorProps {
   challenges: Challenge[];
   onSelectChallenge: (challenge: Challenge) => void;
 }
+
+// Enhancing level color mapping for UI card backgrounds/borders/shadows
+const cardColorStyles = {
+  [DifficultyLevel.BEGINNER]:
+    "bg-gradient-to-br from-green-800/90 to-lime-700/80 border-green-400/30 hover:shadow-lg hover:shadow-green-400/20",
+  [DifficultyLevel.INTERMEDIATE]:
+    "bg-gradient-to-br from-sky-800/85 to-blue-700/90 border-blue-400/30 hover:shadow-lg hover:shadow-sky-300/20",
+  [DifficultyLevel.ADVANCED]:
+    "bg-gradient-to-br from-orange-800/95 to-yellow-700/80 border-yellow-400/30 hover:shadow-lg hover:shadow-yellow-300/20",
+  [DifficultyLevel.MONSTER]:
+    "bg-gradient-to-br from-pink-900 to-red-900 border-pink-500/40 hover:shadow-lg hover:shadow-pink-200/20",
+  [DifficultyLevel.LEGENDARY]:
+    "bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 border-purple-500/40 hover:shadow-lg hover:shadow-purple-200/20",
+};
 
 const difficultyColor = {
   [DifficultyLevel.BEGINNER]: "bg-green-500/20 text-green-500 hover:bg-green-500/30",
@@ -211,8 +226,12 @@ const ChallengeSelector = ({ challenges, onSelectChallenge }: ChallengeSelectorP
         {filteredChallenges.length > 0 ? (
           filteredChallenges.map((challenge) => (
             <Card 
-              key={challenge.id} 
-              className="bg-gray-800 border-gray-700 hover:border-purple-500/50 transition cursor-pointer hover:shadow-lg hover:shadow-purple-500/10"
+              key={challenge.id}
+              className={cn(
+                "transition cursor-pointer border-2",
+                cardColorStyles[challenge.difficulty as DifficultyLevel] || "bg-gray-800 border-gray-700",
+                "hover:scale-105 duration-150"
+              )}
               onClick={() => onSelectChallenge(challenge)}
             >
               <CardHeader className="pb-2">
@@ -221,7 +240,7 @@ const ChallengeSelector = ({ challenges, onSelectChallenge }: ChallengeSelectorP
                     <CardTitle className="text-lg text-white mb-1">
                       {challenge.title}
                     </CardTitle>
-                    <CardDescription className="text-gray-400">
+                    <CardDescription className="text-gray-300">
                       {challenge.shortDescription || challenge.description.substring(0, 80) + "..."}
                     </CardDescription>
                   </div>
@@ -251,8 +270,8 @@ const ChallengeSelector = ({ challenges, onSelectChallenge }: ChallengeSelectorP
                     {challenge.difficulty}
                   </Badge>
                 </div>
-                {challenge.requiresPassword && (
-                  <div className="mt-3 flex items-center gap-1 text-gray-400 text-xs">
+                {(challenge.requiresPassword) && (
+                  <div className="mt-3 flex items-center gap-1 text-gray-300 text-xs">
                     <Lock className="h-3 w-3" />
                     <span>Password protected</span>
                   </div>

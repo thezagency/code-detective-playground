@@ -33,11 +33,11 @@ const Index = () => {
   const { toast } = useToast();
 
   const levelColors: Record<string, string> = {
-    [DifficultyLevel.BEGINNER]: "bg-green-700/60 border-green-400/40 text-green-200",
-    [DifficultyLevel.INTERMEDIATE]: "bg-blue-700/60 border-blue-400/40 text-blue-200",
-    [DifficultyLevel.ADVANCED]: "bg-yellow-700/60 border-yellow-400/40 text-yellow-200",
-    [DifficultyLevel.MONSTER]: "bg-orange-800/70 border-orange-400/50 text-orange-200",
-    [DifficultyLevel.LEGENDARY]: "bg-purple-900/70 border-purple-400/60 text-purple-200",
+    [DifficultyLevel.BEGINNER]: "bg-gradient-to-r from-green-700 to-lime-600 border-green-400/60 text-green-100 shadow-green-700/40",
+    [DifficultyLevel.INTERMEDIATE]: "bg-gradient-to-r from-blue-700 to-sky-600 border-blue-400/60 text-sky-100 shadow-blue-700/40",
+    [DifficultyLevel.ADVANCED]: "bg-gradient-to-r from-yellow-700 to-orange-500 border-yellow-400/70 text-yellow-50 shadow-yellow-700/40",
+    [DifficultyLevel.MONSTER]: "bg-gradient-to-r from-pink-700 to-red-700 border-pink-400/70 text-pink-100 shadow-pink-800/40",
+    [DifficultyLevel.LEGENDARY]: "bg-gradient-to-r from-purple-900 to-indigo-900 border-purple-400/70 text-purple-100 shadow-purple-900/40",
   };
 
   const handleChallengeSelect = (challenge: Challenge) => {

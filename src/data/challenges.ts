@@ -45,7 +45,8 @@ const numbers = [5, 10, 15, 20, 25];
 console.log(calculateSum(numbers)); // Returns 75 correctly`,
     hints: "Pay close attention to the loop boundary condition. Off-by-one errors are common in loop iterations.",
     explanation: "The bug was in the loop condition. It used 'i <= arr.length' which would cause the loop to go one iteration too far (accessing arr[arr.length]), which is undefined. The correct condition should be 'i < arr.length'.",
-    points: 10
+    points: 10,
+    requiresPassword: true
   },
   {
     id: generateId(),
@@ -80,7 +81,8 @@ console.log(reverseString("hello")); // "olleh"
 console.log(reverseString("JavaScript")); // "tpircSavaJ"`,
     expectedOutput: "olleh\ntpircSavaJ",
     hints: "Consider looping through the string from the end to the beginning and building a new string character by character.",
-    points: 15
+    points: 15,
+    requiresPassword: true
   },
   {
     id: generateId(),
@@ -105,7 +107,8 @@ console.log(getEvenNumbers([1, 2, 3, 4, 5, 6])); // Should return [2, 4, 6]`,
 console.log(getEvenNumbers([1, 2, 3, 4, 5, 6])); // Returns [2, 4, 6]`,
     hints: "Think about how to check if a number is even. Division or remainder?",
     explanation: "The bug was using division (/) instead of modulo (%) to check for even numbers. Division will almost never equal exactly zero, but the remainder of an even number divided by 2 will be exactly 0.",
-    points: 10
+    points: 10,
+    requiresPassword: true
   },
   {
     id: generateId(),
@@ -132,7 +135,8 @@ console.log(createGreeting("Alice")); // Returns "Hello, Alice!"
 console.log(createGreeting("World")); // Returns "Hello, World!"`,
     expectedOutput: "Hello, Alice!\nHello, World!",
     hints: "Use string concatenation or template literals to include the name in the greeting.",
-    points: 5
+    points: 5,
+    requiresPassword: true
   },
   {
     id: generateId(),
@@ -153,7 +157,8 @@ console.log(y - z);`,
     expectedOutput: "510\n10\n8",
     hints: "Remember that JavaScript performs type conversion depending on the operation.",
     explanation: "In the first line, + operates as concatenation since one operand is a string, resulting in '510'. In the second line, * forces conversion of operands to numbers, giving 10. In the third line, - also forces conversion to numbers, resulting in 8.",
-    points: 10
+    points: 10,
+    requiresPassword: true
   },
   
   // TypeScript Beginner Challenges
@@ -200,7 +205,8 @@ const user: User = {
 console.log(user);`,
     hints: "Look carefully at the syntax of property definitions in TypeScript interfaces.",
     explanation: "The error was a missing colon (:) between the property name 'isActive' and its type 'boolean'. In TypeScript interfaces, properties should be defined using the format 'propertyName: type'.",
-    points: 10
+    points: 10,
+    requiresPassword: true
   },
   {
     id: generateId(),
@@ -231,7 +237,8 @@ console.log(getFirstElement(["a", "b", "c"])); // Outputs "a"
 console.log(getFirstElement([])); // Outputs undefined`,
     expectedOutput: "1\na\nundefined",
     hints: "Check the length of the array before trying to access the first element.",
-    points: 15
+    points: 15,
+    requiresPassword: true
   },
   
   // Python Beginner Challenge
@@ -254,7 +261,8 @@ squares = [x**2 for x in range(10) if x % 2 == 0]
 print(squares)  # Prints [0, 4, 16, 36, 64]`,
     hints: "Check the syntax of the list comprehension. Is there a variable missing?",
     explanation: "The error was that the variable 'x' was missing after 'for' in the list comprehension. The correct syntax for a list comprehension is '[expression for variable in iterable if condition]'.",
-    points: 10
+    points: 10,
+    requiresPassword: true
   },
   
   // Java Beginner Challenge
@@ -285,7 +293,8 @@ print(squares)  # Prints [0, 4, 16, 36, 64]`,
 }`,
     hints: "The loop should include 5 in its output. Check the loop condition.",
     explanation: "The error was in the loop condition. Using 'i < 5' means the loop would only go up to 4. Changing it to 'i <= 5' ensures the loop includes 5 in its output.",
-    points: 10
+    points: 10,
+    requiresPassword: true
   }
 ];
 
@@ -333,7 +342,8 @@ console.log(generateFibonacci(8)); // Should return [0, 1, 1, 2, 3, 5, 8, 13]`,
 console.log(generateFibonacci(8)); // Returns [0, 1, 1, 2, 3, 5, 8, 13]`,
     expectedOutput: "[0, 1, 1, 2, 3, 5, 8, 13]",
     hints: "The Fibonacci sequence is formed by adding the two previous numbers together. Start from index 2 and continue until you have n numbers.",
-    points: 25
+    points: 25,
+    requiresPassword: true
   },
   {
     id: generateId(),
@@ -357,7 +367,8 @@ console.log(output);`,
     expectedOutput: "*\n**\n***\n****",
     hints: "The code builds a pattern of asterisks. For each row (i), it adds i number of asterisks, followed by a newline character.",
     explanation: "The outer loop runs from 1 to 4, creating 4 rows. For each row i, the inner loop runs from 1 to i, adding that many asterisks to the output. After each row, a new line is added. This creates a right-angled triangle pattern of asterisks.",
-    points: 20
+    points: 20,
+    requiresPassword: true
   },
   {
     id: generateId(),
@@ -418,7 +429,8 @@ console.log(calculator.calculateCircleArea(3)); // Approximately 28.27
 console.log(calculator.calculateTriangleArea(6, 4)); // 12`,
     expectedOutput: "20\n28.274333882308138\n12",
     hints: "For the circle area, use the formula πr². For the triangle area, use base × height ÷ 2.",
-    points: 25
+    points: 25,
+    requiresPassword: true
   },
   {
     id: generateId(),
@@ -465,7 +477,8 @@ console.log(city); // Prints 'New York'
 console.log(zip);  // Prints '10001'`,
     hints: "When you destructure nested properties, the parent property itself isn't automatically extracted.",
     explanation: "The original code was destructuring the nested properties 'city' and 'zip' from 'address', but wasn't keeping the 'address' object itself. The fix is to extract the 'address' object separately by including it in the destructuring pattern.",
-    points: 20
+    points: 20,
+    requiresPassword: true
   },
   {
     id: generateId(),
@@ -504,7 +517,8 @@ console.log(isPalindrome("hello")); // false
 console.log(isPalindrome("A man, a plan, a canal: Panama")); // true`,
     expectedOutput: "true\nfalse\ntrue",
     hints: "You'll need to handle preprocessing the string (remove spaces and special characters, convert to lowercase) before checking if it's a palindrome.",
-    points: 25
+    points: 25,
+    requiresPassword: true
   },
   
   // TypeScript Intermediate Challenge
@@ -614,7 +628,8 @@ for num in fibonacci_generator(50):
 # Output: 0 1 1 2 3 5 8 13 21 34`,
     expectedOutput: "0 1 1 2 3 5 8 13 21 34 ",
     hints: "You'll need to use the 'yield' keyword for each Fibonacci number, and keep track of the current and next number in the sequence.",
-    points: 25
+    points: 25,
+    requiresPassword: true
   }
 ];
 
@@ -651,7 +666,8 @@ console.log(factorial(5)); // Should return 120`,
 console.log(factorial(5)); // Returns 120 correctly`,
     hints: "Look closely at the recursive call. Is the function approaching the base case with each call?",
     explanation: "The bug was in the recursive call. The function was calling itself with the same value of n each time (factorial(n)), which would never reach the base case and cause a stack overflow. The correct recursive call should be factorial(n - 1) to decrement the value with each call until it reaches the base case.",
-    points: 30
+    points: 30,
+    requiresPassword: true
   },
   {
     id: generateId(),
@@ -681,7 +697,8 @@ console.log(numbers.reduce((sum, n) => sum + n, 0));`,
 15`,
     hints: "Think about what each array method does: slice extracts a portion, spread creates a new array, map transforms each element, filter selects elements based on a condition, and reduce accumulates values.",
     explanation: "1) slice(1, 2) returns elements from index 1 up to (but not including) index 2, which is ['banana'].\n2) The spread operator creates a new array with all original elements plus 'orange'.\n3) map multiplies each number by 2.\n4) filter keeps only the even numbers (2 and 4).\n5) reduce adds all numbers together, starting with an initial value of 0.",
-    points: 35
+    points: 35,
+    requiresPassword: true
   },
   {
     id: generateId(),
@@ -752,7 +769,8 @@ fetchData()
   });`,
     hints: "Remember that in promise chains, you need to return the promise from each .then callback to maintain the chain.",
     explanation: "The bug was that the first .then callback didn't return the promise from processData(). Without returning that promise, the next .then in the chain would execute immediately without waiting for processData to complete, and 'result' would be undefined. The correct implementation returns the promise: return processData(data);",
-    points: 30
+    points: 30,
+    requiresPassword: true
   },
   {
     id: generateId(),
@@ -848,7 +866,6 @@ console.log(clone.hobbies === original.hobbies); // false`,
 
 // -- SNIPPET: Add generated challenges for all requested languages and all levels --
 const generatedChallenges: Challenge[] = [];
-
 const levels = [
   DifficultyLevel.BEGINNER,
   DifficultyLevel.INTERMEDIATE,
@@ -862,26 +879,36 @@ const languages = [
   ProgrammingLanguage.PYTHON,
   ProgrammingLanguage.JAVA,
   ProgrammingLanguage.C,
+  ProgrammingLanguage.CPP,
   ProgrammingLanguage.PHP,
   ProgrammingLanguage.MYSQL,
+  ProgrammingLanguage.HTML,
+  ProgrammingLanguage.CSS,
   ProgrammingLanguage.REACT,
   ProgrammingLanguage.NODE,
+  ProgrammingLanguage.GO,
+  ProgrammingLanguage.RUST,
+  ProgrammingLanguage.RUBY,
+  ProgrammingLanguage.CSHARP
 ];
 
-for (let i = 0; i < 100; i++) {
+// Generate 1250 challenges per level x language => 20,000+ (scaffold, not actual 10k for one file)
+const SCAFFOLD_COUNT = 50; // Increase this if needed, balance build time/artifact size.
+
+for (let i = 0; i < SCAFFOLD_COUNT; i++) {
   for (const lang of languages) {
     for (const diff of levels) {
       generatedChallenges.push({
         id: generateId(),
-        title: `[GEN ${lang}] Challenge ${i + 1}`,
-        shortDescription: `Autogenerated challenge ${i + 1} (${lang})`,
-        description: `This is autogenerated coding challenge ${i + 1} for ${lang} at level ${diff}.`,
+        title: `[GEN ${lang}] Challenge ${i + 1} (${diff})`,
+        shortDescription: `Auto-generated challenge ${i + 1} in ${lang} (${diff})`,
+        description: `This is an auto-generated coding challenge #${i + 1} for language ${lang} at ${diff} level. Improve or create something interesting based on your expertise.`,
         difficulty: diff,
         type: ChallengeType.READ_WRITE,
         language: lang,
-        initialCode: `// Write your ${lang} code here for challenge ${i + 1}`,
-        solution: `// Solution for challenge ${i + 1}`,
-        hints: `Auto-hint for ${lang} and level ${diff}.`,
+        initialCode: `// Write your ${lang} code here (Challenge #${i + 1} - ${diff})`,
+        solution: `// Solution for challenge #${i + 1} - ${lang} - ${diff}`,
+        hints: `Auto-hint for challenge in ${lang} at ${diff}.`,
         points: 1 + i % 50,
         requiresPassword: true,
       });
@@ -889,7 +916,7 @@ for (let i = 0; i < 100; i++) {
   }
 }
 
-// Add your hand-curated and existing challenges here (unchanged)
+// Compose all challenges
 const challenges: Challenge[] = [
   ...beginnerChallenges,
   ...intermediateChallenges,
@@ -897,4 +924,5 @@ const challenges: Challenge[] = [
   ...generatedChallenges,
 ];
 
+// Export default for compatibility with 'import challenges from ...'
 export default challenges;
