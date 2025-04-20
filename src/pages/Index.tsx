@@ -3,7 +3,7 @@ import { useState } from "react";
 import CodeEditor from "@/components/CodeEditor";
 import ChallengeSelector from "@/components/ChallengeSelector";
 import ResultDisplay from "@/components/ResultDisplay";
-import { challenges } from "@/data/challenges";
+import challenges from "@/data/challenges"; // Changed from named import to default import
 import { Challenge, ChallengeType, DifficultyLevel } from "@/types/challenge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
