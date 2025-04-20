@@ -1,9 +1,8 @@
-
 import { useState } from "react";
 import CodeEditor from "@/components/CodeEditor";
 import ChallengeSelector from "@/components/ChallengeSelector";
 import ResultDisplay from "@/components/ResultDisplay";
-import challenges from "@/data/challenges"; // Changed from named import to default import
+import challenges from "@/data/challenges";
 import { Challenge, ChallengeType, DifficultyLevel } from "@/types/challenge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,6 +31,14 @@ const Index = () => {
   const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
   const [password, setPassword] = useState("");
   const { toast } = useToast();
+
+  const levelColors: Record<string, string> = {
+    [DifficultyLevel.BEGINNER]: "bg-green-700/60 border-green-400/40 text-green-200",
+    [DifficultyLevel.INTERMEDIATE]: "bg-blue-700/60 border-blue-400/40 text-blue-200",
+    [DifficultyLevel.ADVANCED]: "bg-yellow-700/60 border-yellow-400/40 text-yellow-200",
+    [DifficultyLevel.MONSTER]: "bg-orange-800/70 border-orange-400/50 text-orange-200",
+    [DifficultyLevel.LEGENDARY]: "bg-purple-900/70 border-purple-400/60 text-purple-200",
+  };
 
   const handleChallengeSelect = (challenge: Challenge) => {
     setSelectedChallenge(challenge);
@@ -301,18 +308,19 @@ const Index = () => {
                 <div className="flex items-center gap-2 text-gray-400">
                   {challengeTypeIcon(selectedChallenge.type as ChallengeType)}
                   <span>{challengeTypeLabel(selectedChallenge.type as ChallengeType)}</span>
+                  <span className={`ml-3 px-3 py-1 rounded-full text-xs font-semibold border ${levelColors[selectedChallenge.difficulty] || "bg-gray-800"}`}>
+                    {selectedChallenge.difficulty}
+                  </span>
                   {selectedChallenge.points && (
                     <div className="flex items-center gap-1 text-yellow-400 ml-4">
                       <Star className="h-4 w-4 fill-yellow-400" />
                       <span className="font-bold">{selectedChallenge.points} points</span>
                     </div>
                   )}
-                  {selectedChallenge.requiresPassword && (
-                    <div className="flex items-center gap-1 text-gray-400 ml-4">
-                      <Lock className="h-4 w-4" />
-                      <span>Solution protected</span>
-                    </div>
-                  )}
+                  <div className="flex items-center gap-1 text-gray-400 ml-4">
+                    <Lock className="h-4 w-4" />
+                    <span>Solution protected</span>
+                  </div>
                 </div>
               </div>
               <div className="flex gap-2">
