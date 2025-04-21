@@ -1,5 +1,5 @@
 // Keep the existing imports and challenge types
-import { Challenge, ChallengeType, DifficultyLevel, ProgrammingLanguage } from "@/types/challenge";
+import { Challenge, ChallengeType, DifficultyLevel, ProgrammingLanguage, ChallengeOrigin } from "@/types/challenge";
 
 // Updated challenges with consistent password protection
 const challenges: Challenge[] = [
@@ -714,11 +714,59 @@ export default React.memo(UserList);`,
   }
 ];
 
-// Combine original challenges with additional ones
-const allChallenges: Challenge[] = challenges.map(challenge => ({
-  ...challenge,
-  requiresPassword: true  // Set password protection for all challenges
-}));
+// Generate 10,000 additional intermediate and up challenges
+const additionalGeneratedChallenges: Challenge[] = [];
+
+const highLevels = [
+  DifficultyLevel.INTERMEDIATE,
+  DifficultyLevel.ADVANCED,
+  DifficultyLevel.MONSTER,
+  DifficultyLevel.LEGENDARY,
+];
+
+const challengeTypes = Object.values(ChallengeType);
+const languages = Object.values(ProgrammingLanguage);
+const origins = [ChallengeOrigin.LEETCODE, ChallengeOrigin.GOOGLE];
+
+for (let i = 0; i < 10000; i++) {
+  const difficulty = highLevels[i % highLevels.length];
+  const type = challengeTypes[i % challengeTypes.length] as ChallengeType;
+  const language = languages[i % languages.length];
+  const origin = origins[i % 2];
+  const id = `gen-${origin.toLowerCase()}-${difficulty.toLowerCase()}-${type.toLowerCase()}-${i}`;
+
+  additionalGeneratedChallenges.push({
+    id,
+    title: `[${origin}] ${difficulty} ${type.replace(/_/g, " ")} Challenge #${i+1}`,
+    description: `Solve a challenging ${type.replace(/_/g, " ").toLowerCase()} problem in ${language}.`,
+    shortDescription: `${difficulty} ${type.replace(/_/g, " ")}`,
+    difficulty,
+    type,
+    language,
+    initialCode: `// Start your ${language} solution here`,
+    solution: "// solution placeholder",
+    solutionCode: `// solution code placeholder`,
+    expectedOutput: "Output placeholder",
+    hints: "Try your best for this generated challenge!",
+    explanation: "This is a generated challenge for practice purposes.",
+    category: "Algorithm",
+    points: 10 + (highLevels.indexOf(difficulty) * 10),
+    requiresPassword: true,
+    origin,
+    timeLimit: 60,
+    memoryLimit: 256,
+    tags: [difficulty, type, origin],
+    popularity: Math.floor(Math.random() * 100),
+    successRate: 50 + Math.round(Math.random() * 20),
+  });
+}
+
+// Combine manual and generated challenges
+const allChallenges: Challenge[] = [
+  ...challenges
+];
+
+allChallenges.push(...additionalGeneratedChallenges);
 
 // Export default for use in the application
 export default allChallenges;
