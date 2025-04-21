@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Trophy, Lightbulb, Star, Lock, Bug, Code, Search, Rocket, Brain, ShieldCheck, Layers, Check } from "lucide-react";
 import CodeEditor from "@/components/CodeEditor";
@@ -63,7 +62,7 @@ const ChallengeDetails = ({
             ← Back to Challenges
           </Button>
           <h2 className="text-2xl font-bold text-blue-800">{challenge.title}</h2>
-          <div className="flex items-center gap-2 text-blue-600">
+          <div className="flex flex-wrap items-center gap-2 text-blue-600">
             {challengeTypeIcon(challenge.type)}
             <span>{challenge.type}</span>
             <span className={`ml-3 px-3 py-1 rounded-full text-xs font-semibold border ${levelColors[challenge.difficulty] || "bg-gray-800"}`}>
@@ -73,6 +72,12 @@ const ChallengeDetails = ({
               <div className="flex items-center gap-1 text-yellow-600 ml-4">
                 <Star className="h-4 w-4 fill-yellow-500" />
                 <span className="font-bold">{challenge.points} points</span>
+              </div>
+            )}
+            {challenge.origin && (
+              <div className="flex items-center gap-1 text-blue-500 ml-4">
+                <Code className="h-4 w-4" />
+                <span>From: {challenge.origin}</span>
               </div>
             )}
             <div className="flex items-center gap-1 text-blue-500 ml-4">

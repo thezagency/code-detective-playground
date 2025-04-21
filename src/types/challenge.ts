@@ -9,7 +9,12 @@ export enum ChallengeType {
   DEBUG_RECURSIVE = 'DEBUG_RECURSIVE',
   ALGORITHM_CHALLENGE = 'ALGORITHM_CHALLENGE',
   SECURITY_AUDIT = 'SECURITY_AUDIT',
-  DESIGN_PATTERN = 'DESIGN_PATTERN'
+  DESIGN_PATTERN = 'DESIGN_PATTERN',
+  DATA_STRUCTURE = 'DATA_STRUCTURE',
+  DYNAMIC_PROGRAMMING = 'DYNAMIC_PROGRAMMING',
+  GRAPH_THEORY = 'GRAPH_THEORY',
+  BIT_MANIPULATION = 'BIT_MANIPULATION',
+  SYSTEM_DESIGN = 'SYSTEM_DESIGN'
 }
 
 export enum DifficultyLevel {
@@ -36,7 +41,40 @@ export enum ProgrammingLanguage {
   GO = 'Go',
   RUST = 'Rust',
   RUBY = 'Ruby',
-  CSHARP = 'C#'
+  CSHARP = 'C#',
+  KOTLIN = 'Kotlin',
+  SWIFT = 'Swift',
+  SCALA = 'Scala',
+  PERL = 'Perl',
+  HASKELL = 'Haskell',
+  SOLIDITY = 'Solidity',
+  BASH = 'Bash',
+  R = 'R',
+  DART = 'Dart',
+  ELIXIR = 'Elixir',
+  LUA = 'Lua',
+  CLOJURE = 'Clojure',
+  FORTRAN = 'Fortran',
+  ASSEMBLY = 'Assembly'
+}
+
+export enum ChallengeOrigin {
+  LEETCODE = 'LeetCode',
+  HACKERRANK = 'HackerRank',
+  CODEFORCES = 'CodeForces',
+  CODEWARS = 'CodeWars',
+  PROJECTEULER = 'Project Euler',
+  TOPCODER = 'TopCoder',
+  GOOGLE = 'Google',
+  FACEBOOK = 'Facebook',
+  AMAZON = 'Amazon',
+  MICROSOFT = 'Microsoft',
+  APPLE = 'Apple',
+  NETFLIX = 'Netflix',
+  TWITTER = 'Twitter',
+  UBER = 'Uber',
+  AIRBNB = 'Airbnb',
+  CUSTOM = 'Custom'
 }
 
 export interface Challenge {
@@ -56,4 +94,10 @@ export interface Challenge {
   category?: string;
   points?: number;
   requiresPassword?: boolean;
+  origin?: ChallengeOrigin | string;
+  timeLimit?: number;  // In seconds
+  memoryLimit?: number; // In MB
+  tags?: string[];
+  popularity?: number; // Rating or popularity score
+  successRate?: number; // Percentage of users who solved it
 }

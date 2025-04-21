@@ -1,4 +1,3 @@
-
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,13 +15,15 @@ import { Badge } from "./ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { cn } from "@/lib/utils";
+import ChallengePagination from "./ChallengePagination";
 
 interface ChallengeSelectorProps {
   challenges: Challenge[];
   onSelectChallenge: (challenge: Challenge) => void;
 }
 
-// Enhancing level color mapping for UI card backgrounds/borders/shadows
+const ITEMS_PER_PAGE = 9;
+
 const cardColorStyles = {
   [DifficultyLevel.BEGINNER]:
     "bg-gradient-to-br from-green-800/90 to-lime-700/80 border-green-400/30 hover:shadow-lg hover:shadow-green-400/20",
@@ -94,6 +95,7 @@ const ChallengeSelector = ({ challenges, onSelectChallenge }: ChallengeSelectorP
   const [activeTab, setActiveTab] = useState("all");
   const [difficultyFilter, setDifficultyFilter] = useState<string>("all");
   const [languageFilter, setLanguageFilter] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState(1);
   
   const languages = useMemo(() => {
     const langs = new Set<string>();
@@ -132,6 +134,21 @@ const ChallengeSelector = ({ challenges, onSelectChallenge }: ChallengeSelectorP
     });
   }, [challenges, searchTerm, activeTab, difficultyFilter, languageFilter]);
 
+  const totalPages = Math.ceil(filteredChallenges.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, filteredChallenges.length);
+  const currentChallenges = filteredChallenges.slice(startIndex, endIndex);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const applyFilter = (filterFn: Function, value: any) => {
+    filterFn(value);
+    setCurrentPage(1);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4">
@@ -141,13 +158,16 @@ const ChallengeSelector = ({ challenges, onSelectChallenge }: ChallengeSelectorP
             <Input
               placeholder="Search challenges"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => applyFilter(setSearchTerm, e.target.value)}
               className="pl-10 bg-gray-800 border-gray-700 text-white"
             />
           </div>
           
           <div className="w-full md:w-auto">
-            <Select value={languageFilter} onValueChange={setLanguageFilter}>
+            <Select 
+              value={languageFilter} 
+              onValueChange={(value) => applyFilter(setLanguageFilter, value)}
+            >
               <SelectTrigger className="bg-gray-800 border-gray-700 text-white w-full md:w-[180px]">
                 <SelectValue placeholder="Language" />
               </SelectTrigger>
@@ -161,7 +181,12 @@ const ChallengeSelector = ({ challenges, onSelectChallenge }: ChallengeSelectorP
           </div>
         </div>
 
-        <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <Tabs 
+          defaultValue="all" 
+          value={activeTab} 
+          onValueChange={(value) => applyFilter(setActiveTab, value)} 
+          className="w-full"
+        >
           <TabsList className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 w-full overflow-x-auto">
             <TabsTrigger value="all">All</TabsTrigger>
             <TabsTrigger value="findError">Find Error</TabsTrigger>
@@ -180,51 +205,74 @@ const ChallengeSelector = ({ challenges, onSelectChallenge }: ChallengeSelectorP
           <Badge 
             variant={difficultyFilter === "all" ? "default" : "outline"} 
             className="cursor-pointer"
-            onClick={() => setDifficultyFilter("all")}
+            onClick={() => applyFilter(setDifficultyFilter, "all")}
           >
             All Levels
           </Badge>
           <Badge 
             variant={difficultyFilter === DifficultyLevel.BEGINNER ? "default" : "outline"} 
             className={`cursor-pointer ${difficultyFilter === DifficultyLevel.BEGINNER ? "bg-green-500" : ""}`}
-            onClick={() => setDifficultyFilter(DifficultyLevel.BEGINNER)}
+            onClick={() => applyFilter(setDifficultyFilter, DifficultyLevel.BEGINNER)}
           >
             Beginner
           </Badge>
           <Badge 
             variant={difficultyFilter === DifficultyLevel.INTERMEDIATE ? "default" : "outline"} 
             className={`cursor-pointer ${difficultyFilter === DifficultyLevel.INTERMEDIATE ? "bg-yellow-500" : ""}`}
-            onClick={() => setDifficultyFilter(DifficultyLevel.INTERMEDIATE)}
+            onClick={() => applyFilter(setDifficultyFilter, DifficultyLevel.INTERMEDIATE)}
           >
             Intermediate
           </Badge>
           <Badge 
             variant={difficultyFilter === DifficultyLevel.ADVANCED ? "default" : "outline"} 
             className={`cursor-pointer ${difficultyFilter === DifficultyLevel.ADVANCED ? "bg-red-500" : ""}`}
-            onClick={() => setDifficultyFilter(DifficultyLevel.ADVANCED)}
+            onClick={() => applyFilter(setDifficultyFilter, DifficultyLevel.ADVANCED)}
           >
             Advanced
           </Badge>
           <Badge 
             variant={difficultyFilter === DifficultyLevel.MONSTER ? "default" : "outline"} 
             className={`cursor-pointer ${difficultyFilter === DifficultyLevel.MONSTER ? "bg-purple-500" : ""}`}
-            onClick={() => setDifficultyFilter(DifficultyLevel.MONSTER)}
+            onClick={() => applyFilter(setDifficultyFilter, DifficultyLevel.MONSTER)}
           >
             Monster
           </Badge>
           <Badge 
             variant={difficultyFilter === DifficultyLevel.LEGENDARY ? "default" : "outline"} 
             className={`cursor-pointer ${difficultyFilter === DifficultyLevel.LEGENDARY ? "bg-blue-500" : ""}`}
-            onClick={() => setDifficultyFilter(DifficultyLevel.LEGENDARY)}
+            onClick={() => applyFilter(setDifficultyFilter, DifficultyLevel.LEGENDARY)}
           >
             Legendary
           </Badge>
         </div>
       </div>
 
+      <div className="flex justify-between items-center">
+        <div className="text-white">
+          Showing {startIndex + 1}-{endIndex} of {filteredChallenges.length} challenges
+        </div>
+        <div>
+          <Select
+            value={String(ITEMS_PER_PAGE)}
+            onValueChange={(value) => {
+              // This is just UI, the actual value is constant for now
+            }}
+          >
+            <SelectTrigger className="bg-gray-800 border-gray-700 text-white w-[100px]">
+              <SelectValue placeholder="Per Page" />
+            </SelectTrigger>
+            <SelectContent className="bg-gray-800 border-gray-700">
+              <SelectItem value="9">9 / page</SelectItem>
+              <SelectItem value="18">18 / page</SelectItem>
+              <SelectItem value="36">36 / page</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredChallenges.length > 0 ? (
-          filteredChallenges.map((challenge) => (
+        {currentChallenges.length > 0 ? (
+          currentChallenges.map((challenge) => (
             <Card 
               key={challenge.id}
               className={cn(
@@ -276,6 +324,12 @@ const ChallengeSelector = ({ challenges, onSelectChallenge }: ChallengeSelectorP
                     <span>Password protected</span>
                   </div>
                 )}
+                {challenge.origin && (
+                  <div className="mt-2 flex items-center gap-1 text-gray-300 text-xs">
+                    <Code className="h-3 w-3" />
+                    <span>From: {challenge.origin}</span>
+                  </div>
+                )}
               </CardContent>
             </Card>
           ))
@@ -285,6 +339,14 @@ const ChallengeSelector = ({ challenges, onSelectChallenge }: ChallengeSelectorP
           </div>
         )}
       </div>
+
+      {totalPages > 1 && (
+        <ChallengePagination 
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   );
 };
