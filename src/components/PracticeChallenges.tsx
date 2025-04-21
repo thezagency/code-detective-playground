@@ -1,6 +1,5 @@
-
 import ChallengeSelector from "@/components/ChallengeSelector";
-import { Trophy, UserPlus, Star, Award, Code, Lightning, Zap, Database } from "lucide-react";
+import { Trophy, UserPlus, Star, Award, Code, Zap, Database } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Progress } from "@/components/ui/progress";
 import { ChallengeOrigin, ChallengeType, DifficultyLevel } from "@/types/challenge";
@@ -116,7 +115,7 @@ const PracticeChallenges = ({
         
         <div className="bg-white p-6 rounded-xl shadow-md border border-blue-100">
           <div className="flex items-center gap-2 mb-4">
-            <Lightning className="h-5 w-5 text-yellow-500" />
+            <Zap className="h-5 w-5 text-yellow-500" />
             <h4 className="font-bold text-blue-700">Challenge Difficulty</h4>
           </div>
           <div className="space-y-3">
