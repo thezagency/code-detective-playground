@@ -118,3 +118,12 @@
 .challenge-card.legendary {
   @apply border-purple-200 bg-gradient-to-br from-purple-50 to-white;
 }
+
+/* Navigation styles */
+.nav-link {
+  @apply text-white transition-colors hover:text-blue-100;
+}
+
+.nav-link-active {
+  @apply text-blue-200 font-semibold;
+}

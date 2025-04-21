@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Trophy, Quiz, CalendarClock } from "lucide-react";
+import { Trophy, Brain, CalendarClock } from "lucide-react";
 
 interface QuizIntroProps {
   onStartQuiz: () => void;
@@ -22,7 +22,7 @@ const QuizIntro: React.FC<QuizIntroProps> = ({ onStartQuiz }) => {
       <Card className="border-2 border-blue-200 shadow-lg">
         <CardHeader className="bg-blue-50">
           <CardTitle className="text-2xl text-blue-800 flex items-center gap-2">
-            <Quiz className="h-6 w-6 text-blue-600" />
+            <Brain className="h-6 w-6 text-blue-600" />
             Get Ready Quiz
           </CardTitle>
           <CardDescription className="text-blue-600">
