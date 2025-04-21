@@ -1,5 +1,6 @@
+
 import { Button } from "@/components/ui/button";
-import { Trophy, Lightbulb, Star, Lock, Bug, Code, Search, Rocket, Brain, ShieldCheck, Layers } from "lucide-react";
+import { Trophy, Lightbulb, Star, Lock, Bug, Code, Search, Rocket, Brain, ShieldCheck, Layers, Check } from "lucide-react";
 import CodeEditor from "@/components/CodeEditor";
 import ResultDisplay from "@/components/ResultDisplay";
 import { ChallengeType } from "@/types/challenge";
